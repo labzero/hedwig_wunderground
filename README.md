@@ -28,7 +28,9 @@ config :my_hedwig_robot, MyHedwigRobot.Robot,
   ]
 ```
 
+
 You'll also need to get an API token from https://api.wunderground.com/weather/api/ and add it to your configuration.
+
 
 ```elixir
  config :hedwig_wunderground, :wunderground_access_token, <YOUR_TOKEN_HERE>

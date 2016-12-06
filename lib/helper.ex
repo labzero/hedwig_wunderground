@@ -12,6 +12,7 @@ defmodule HedwigWunderground.Helper do
   defp get(location, service) do
     case @wunderground_api.get(service, location) do
       {:ok, data} -> Formatter.format(data, location)
+      {:ok, %{data: data, expiration: exp}} -> Formatter.format(data, location)}
       {:error, err} -> error(err) 
     end       
   end

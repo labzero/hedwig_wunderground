@@ -3,5 +3,6 @@
 use Mix.Config
 
 config :hedwig_wunderground, :wunderground_api,HedwigWunderground.HttpClient
+config :hedwig_wunderground, wunderground_api: HedwigWunderground.HttpClient
 
 import_config "#{Mix.env}.exs"
