@@ -3,7 +3,7 @@ defmodule HedwigWunderground.HttpClient do
   
   @url "http://api.wunderground.com/api"
   @token Application.get_env(:hedwig_wunderground, :wunderground_access_token)
-
+  
   def get(:weather, location), do: get_data(:forecast, location)
   def get(:forecast = service, location), do: get_data(service, location)
   def get(:radar = service, location), do: get_data(service, location)
@@ -13,27 +13,9 @@ defmodule HedwigWunderground.HttpClient do
   def get(service, _), do: {:error, "No such service #{service}"}
 
   defp get_data(service, location) do
-    brain = HedwigBrain.brain
-    cache = brain.get_lobe(:wunderground)
-    key = key_for(service, location)
-    now = seconds
-    case brain.get(cache, key) do
-      nil -> 
-        get_and_cache(service, location, brain, cache, key)
-      %{data: data, expiration: expiration} when expiration > now ->
-        {:ok, %{data: data, expiration: expiration}}
-      %{data: _, expiration: _} ->
-        get_and_cache(service, location, brain, cache, key) 
-    end
-  end
-
-  defp get_and_cache(service, location, brain, cache, key) do
-    case get_remote_data(service, location) do
-      {:error, err} -> {:error, err}
-      {:ok, data} -> 
-        brain.put(cache, key, data)
-        {:ok, data}
-    end
+    HedwigWunderground.Cache.get(
+      key_for(service, location),
+      fn -> get_remote_data(service, location) end)
   end
 
   defp get_remote_data(service, location) do

@@ -33,7 +33,7 @@ defmodule HedwigWunderground.Mixfile do
       {:hedwig, "~> 1.0"},      
       {:poison, "~> 3.0"},
       {:httpoison, "~> 0.10.0"},      
-      {:ex_doc, ">= 0.0.0", only: :dev},         
+      {:ex_doc, ">= 0.0.0", only: :dev},            
     ]
   end
 

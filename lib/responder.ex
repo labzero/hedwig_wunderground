@@ -22,7 +22,6 @@ defmodule HedwigWunderground.Responder do
       message
       |> location 
       |> Helper.weather
-      |> Helper.weather    
     send message, msg
   end
 
