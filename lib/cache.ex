@@ -1,31 +1,29 @@
 defmodule HedwigWunderground.Cache do
+  defstruct [:source, :validator]
 
-  def get(key, fetcher) do
-    cached = get(key)
-    case valid?(get(key)) do 
+  def init, do: %HedwigWunderground.Cache{}
+
+  def with_data_source(cache, source) do
+    %HedwigWunderground.Cache{cache | :source => source}
+  end
+
+  def with_validator(cache, validator) do
+    %HedwigWunderground.Cache{cache | :validator => validator}
+  end
+
+  def get(cache, key) do
+    case cache.validator.(get(key)) do 
       {:ok, data} -> {:ok, data} 
-      :error -> put(key, fetcher.())
+      :error -> put(key, cache.source.())
     end 
   end
 
-  defp valid?(%{expiration: expiration, data: data}) do
-    if expiration > seconds do
-      {:ok, data}
-    else
-      :error
-    end
-  end
-
-  defp valid?(_) do
-    :error
-  end
-
   defp get(key) do
-    brain.get(cache, key)
+    brain.get(lobe, key)
   end
 
   defp put(key, {:ok, value} = data) do
-    brain.put(cache, key, value)
+    brain.put(lobe, key, value)
     data
   end
 
@@ -33,13 +31,8 @@ defmodule HedwigWunderground.Cache do
     HedwigBrain.brain
   end
 
-  defp cache do
+  defp lobe do
     brain.get_lobe(:wunderground)
   end
-
-  defp seconds do
-    {_, secs, _} = :erlang.timestamp
-    secs
-  end
-    
+  
 end
