@@ -23,7 +23,7 @@ defmodule HedwigWunderground.Formatter do
     "#{url}.png#{format_timestamp(timestamp)}"    
   end     
 
-  def format(%{"webcams" => webcams}, _location, timestamp) do
+  def format(%{"webcams" => webcams}, _location, _timestamp) do
     case webcams do
       [] -> ["no webcams near location"]
       cams -> 

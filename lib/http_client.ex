@@ -14,7 +14,7 @@ defmodule HedwigWunderground.HttpClient do
   def get(:webcams = service, location), do: get_data(service, location)
   def get(service, _), do: {:error, "No such service #{service}"}
 
-  def valid?(%{created_at: created_at, data: data, service: service} = result) do
+  def valid?(%{created_at: created_at, data: _, service: service} = result) do
     if expired?(service, created_at) do
       :error         
     else
