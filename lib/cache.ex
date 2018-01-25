@@ -12,18 +12,18 @@ defmodule HedwigWunderground.Cache do
   end
 
   def get(cache, key) do
-    case cache.validator.(get(key)) do 
-      {:ok, data} -> {:ok, data} 
+    case cache.validator.(get(key)) do
+      {:ok, data} -> {:ok, data}
       :error -> put(key, cache.source.())
-    end 
+    end
   end
 
   defp get(key) do
-    brain.get(lobe, key)
+    brain().get(lobe(), key)
   end
 
   defp put(key, {:ok, value} = data) do
-    brain.put(lobe, key, value)
+    brain().put(lobe(), key, value)
     data
   end
 
@@ -32,7 +32,6 @@ defmodule HedwigWunderground.Cache do
   end
 
   defp lobe do
-    brain.get_lobe(:wunderground)
+    brain().get_lobe(:wunderground)
   end
-  
 end
