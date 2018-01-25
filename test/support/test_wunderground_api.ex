@@ -1,8 +1,8 @@
 defmodule HedwigWunderground.TestWundergroundApi do
   @behaviour HedwigWunderground.ApiClient
-  
+
   def get(:weather, _) do
-    sample_weather    
+    sample_weather()
   end
 
   def get(:forecast, location) do
@@ -10,15 +10,15 @@ defmodule HedwigWunderground.TestWundergroundApi do
   end
 
   def get(:radar, _) do
-    sample_radar    
+    sample_radar()
   end
 
   def get(:satellite, _) do
-    sample_satellite    
+    sample_satellite()
   end
 
   def get(:weathercam, _) do
-    sample_weathercam    
+    sample_weathercam()
   end
 
   def get(:webcams, location) do
@@ -162,7 +162,7 @@ defmodule HedwigWunderground.TestWundergroundApi do
               "period" => 7, "pop" => "70", "title" => "Friday Night"}]}},
       "response" => %{"features" => %{"forecast" => 1},
         "termsofService" => "http://www.wunderground.com/weather/api/d/terms.html",
-        "version" => "0.1"}}}    
+        "version" => "0.1"}}}
   end
 
   defp sample_radar do
@@ -171,7 +171,7 @@ defmodule HedwigWunderground.TestWundergroundApi do
         "url" => "http://www.wunderground.com/radar/radblast.asp?ID=MUX&region=c1&lat=37.77999878&lon=-122.41999817"},
       "response" => %{"features" => %{"radar" => 1},
         "termsofService" => "http://www.wunderground.com/weather/api/d/terms.html",
-        "version" => "0.1"}}}    
+        "version" => "0.1"}}}
   end
 
   defp sample_satellite do
@@ -224,9 +224,7 @@ defmodule HedwigWunderground.TestWundergroundApi do
           "lon" => "-122.43499756", "neighborhood" => "The Castro",
           "organization" => "Harvey Milk Plaza", "state" => "CA",
           "tzname" => "America/Los_Angeles", "updated" => "2016-12-06 19:44:38",
-          "updated_epoch" => "", "zip" => "94114"}]}}    
+          "updated_epoch" => "", "zip" => "94114"}]}}
   end
 
-  
-            
 end

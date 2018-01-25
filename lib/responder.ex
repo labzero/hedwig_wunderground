@@ -14,40 +14,40 @@ defmodule HedwigWunderground.Responder do
    <botname> weather me <location> - short-term forecast
    <botname> radar me <location> - recent radar image
    <botname> satellite me <location> - get a recent satellite image
-   <botname> weathercam me <location> - get a weather webcam image near location 
+   <botname> weathercam me <location> - get a weather webcam image near location
   """
 
   hear ~r/weather (me|at|for|in)? (?<location>.*)$/i, message do
-    msg = 
+    msg =
       message
-      |> location 
+      |> location
       |> Helper.weather
     send message, msg
   end
 
   hear ~r/radar (me|at|for|in)? (?<location>.*)$/i, message do
-    msg = 
+    msg =
       message
       |> location
-      |> Helper.radar    
+      |> Helper.radar
     send message, msg
   end
 
   hear ~r/satellite (me|at|for|in)? (?<location>.*)$/i, message do
-    msg = 
+    msg =
       message
-      |> location 
+      |> location
       |> Helper.satellite
     send message, msg
   end
 
   hear ~r/weathercam (me|at|for|in)? (?<location>.*)$/i, message do
-    msg = 
+    msg =
       message
-      |> location 
+      |> location
       |> Helper.weathercam
-    send message, msg    
-  end    
+    send message, msg
+  end
 
   defp location(message) do
     message.matches["location"]

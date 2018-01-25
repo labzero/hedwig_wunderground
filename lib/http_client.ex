@@ -1,11 +1,11 @@
 defmodule HedwigWunderground.HttpClient do
   @behaviour HedwigWunderground.ApiClient
-  
+
   alias HedwigWunderground.Cache
 
   @url "http://api.wunderground.com/api"
   @token Application.get_env(:hedwig_wunderground, :wunderground_access_token)
-  
+
   def get(:weather, location), do: get_data(:forecast, location)
   def get(:forecast = service, location), do: get_data(service, location)
   def get(:radar = service, location), do: get_data(service, location)
@@ -16,7 +16,7 @@ defmodule HedwigWunderground.HttpClient do
 
   def valid?(%{created_at: created_at, data: _, service: service} = result) do
     if expired?(service, created_at) do
-      :error         
+      :error
     else
       {:ok, result}
     end
@@ -34,12 +34,12 @@ defmodule HedwigWunderground.HttpClient do
 
   defp get_remote_data(service, location) do
     case HTTPoison.get(url(service, location)) do
-      {:ok, %HTTPoison.Response{status_code: status}} when status >= 400 -> 
+      {:ok, %HTTPoison.Response{status_code: status}} when status >= 400 ->
         {:error, "HTTP status code: #{status}"}
-      {:error, %HTTPoison.Error{reason: reason}} -> 
-        {:error, reason}  
-      {:ok, %HTTPoison.Response{body: json}} ->          
-        {:ok, with_metadata(Poison.decode!(json), service, seconds)}          
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        {:error, reason}
+      {:ok, %HTTPoison.Response{body: json}} ->
+        {:ok, with_metadata(Poison.decode!(json), service, seconds)}
     end
   end
 
@@ -62,7 +62,7 @@ defmodule HedwigWunderground.HttpClient do
   end
 
   defp expired?(service, created_at) do
-    seconds > (created_at + ttl_for(service))  
+    seconds > (created_at + ttl_for(service))
   end
 
   # created + ttl is the expiration time. If now is > than expiration time, it's expired
